@@ -27,12 +27,6 @@ ext {
 	set('springCloudVersion', "2023.0.1")
 }
 
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
-}
-
 assemble.dependsOn = [thinJar, shadowJar]
 
 shadowJar.mustRunAfter thinJar
@@ -61,6 +55,12 @@ shadowJar {
 	}
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-function-web'
 	implementation 'org.springframework.cloud:spring-cloud-function-adapter-aws'
@@ -75,15 +75,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-//task buildZip(type: Zip) {
-//	from compileJava
-//	from processResources
-//	into('lib') {
-//		from(configurations.compileClasspath) {
-//			exclude 'tomcat-embed-*'
-//		}
-//	}
-//}
-//
-//build.dependsOn buildZip
